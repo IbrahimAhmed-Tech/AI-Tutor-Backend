@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Optional VS Code settings
+.vscode/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Uploaded files
+uploads/
+
+# Dependency directories
+package-lock.json
+
+# Build artifacts (if any in future)
+dist/
+build/
+
+# Ignore Mac system files
+._*
+
+# Ignore system generated files
+*.swp
