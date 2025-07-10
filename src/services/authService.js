@@ -1,5 +1,4 @@
 const supabase = require("../../supabaseClient");
-const { setUserContext } = require("../../src/utils/contextStore");
 
 const signUpUser = async ({ name, email, password, context }) => {
   const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -51,13 +50,12 @@ const signInUser = async ({ email, password }) => {
     .single();
 
   if (profileError) return { error: profileError.message };
-
-  setUserContext(user.id, profileData.context);
-
+  
   return {
     token: accessToken,
     user: {
       ...user,
+      context: profileData.context || {},
     },
   };
 };
