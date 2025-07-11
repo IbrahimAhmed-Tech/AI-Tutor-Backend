@@ -7,9 +7,9 @@ require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-const supabase = require('./supabaseClient');
-const authRouter = require('./src/routes/authRoutes')
-const aiConversationRoutes = require('./src/routes/aiConversationRoutes');
+const supabase = require('../supabaseClient');
+const authRouter = require('../src/routes/authRoutes')
+const aiConversationRoutes = require('../src/routes/aiConversationRoutes');
 
 app.get("/", (req, res) => {
     res.send("API is working");
