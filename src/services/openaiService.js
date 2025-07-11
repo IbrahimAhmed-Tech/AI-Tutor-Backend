@@ -32,11 +32,11 @@ const synthesizeSpeech = async (text, outputPath) => {
         input: { text },
         voice: {
             languageCode: "en-IN",
-            name: "en-IN-Wavenet-C", // 👈 Indian English Male voice
+            name: "en-IN-Wavenet-C", 
         },
         audioConfig: {
             audioEncoding: "MP3",
-            speakingRate: 0.9,       // 👈 Slightly slower for clarity
+            speakingRate: 0.9,       
           }
     };
 
