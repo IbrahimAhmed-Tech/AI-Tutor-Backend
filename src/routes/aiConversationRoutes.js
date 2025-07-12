@@ -5,7 +5,13 @@ const fs = require("fs");
 const { handleAiConversation } = require("../controllers/aiConversationController");
 
 const router = express.Router();
+return res.status(200).json({ message: "Request reached the route successfully." });
 
+console.log("Starting AI conversation handler");
+
+setTimeout(() => {
+  console.log("Still running after 10 seconds...");
+}, 10000);
 // Define writable upload path for serverless environments
 const uploadPath = "/tmp/uploads";
 

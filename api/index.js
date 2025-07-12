@@ -22,4 +22,8 @@ app.use('/api/ai-conversation', aiConversationRoutes);
 app.use('/public', express.static(path.join(__dirname, 'src', 'public')));
 
 
-module.exports = serverless(app);
+app.get("/ping", (req, res) => {
+    res.status(200).send("pong");
+});
+
+module.exports.handler = serverless(app);
