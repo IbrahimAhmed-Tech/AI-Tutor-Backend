@@ -26,4 +26,4 @@ app.get("/ping", (req, res) => {
     res.status(200).send("pong");
 });
 
-module.exports.handler = serverless(app);
+module.exports = serverless(app);
