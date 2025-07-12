@@ -21,5 +21,5 @@ app.use('/api/auth', authRouter);
 app.use('/api/ai-conversation', aiConversationRoutes);
 app.use('/public', express.static(path.join(__dirname, 'src', 'public')));
 
-// ✅ Export ONLY the handler
+
 module.exports = serverless(app);
