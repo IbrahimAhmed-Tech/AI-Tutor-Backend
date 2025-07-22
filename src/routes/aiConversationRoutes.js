@@ -1,28 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
 const { handleAiConversation } = require("../controllers/aiConversationController");
 
 const router = express.Router();
 
-console.log("Starting AI conversation handler");
-
-setTimeout(() => {
-  console.log("Still running after 10 seconds...");
-}, 10000);
-// Define writable upload path for serverless environments
-const uploadPath = "/tmp/uploads";
-
-// Ensure the /tmp/uploads directory exists
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
-
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
+  destination: "uploads/",
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname) || ".webm";
     cb(null, `${Date.now()}-${file.originalname}${ext}`);

@@ -34,3 +34,5 @@ build/
 
 # Ignore system generated files
 *.swp
+
+.vercel
