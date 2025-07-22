@@ -2,6 +2,7 @@ const fs = require("fs");
 const util = require("util");
 const axios = require("axios");
 const { OpenAI } = require("openai");
+const supabase  = require("../../supabaseClient"); 
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -15,7 +16,7 @@ const transcribeAudio = async (filePath) => {
     });
 };
 
-const chatWithGpt = async (message, context) => {
+const chatWithLLM = async (message, context) => {
     const fullPrompt = `${context}\n\n${message}`;
     const chatResponse = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -23,6 +24,23 @@ const chatWithGpt = async (message, context) => {
         temperature: 0.7,
     });
     return chatResponse.choices[0].message.content;
+};
+
+
+const saveConversation = async ({ userId, inputText, responseText }) => {
+    const { data, error } = await supabase
+        .rpc('save_conversation_rpc', {
+            uid: userId,
+            input: inputText,
+            response: responseText
+        });
+
+    if (error) {
+        console.error("❌ Error saving conversation via RPC:", error.message);
+        return { error: error.message };
+    }
+
+    return { data };
 };
 
 const synthesizeSpeech = async (text, outputPath) => {
@@ -57,4 +75,4 @@ const synthesizeSpeech = async (text, outputPath) => {
     }
 };
 
-module.exports = { transcribeAudio, chatWithGpt, synthesizeSpeech };
+module.exports = { transcribeAudio, chatWithLLM, saveConversation, synthesizeSpeech };
