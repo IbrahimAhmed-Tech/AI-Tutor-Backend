@@ -1,9 +1,12 @@
 const fs = require("fs");
 const path = require("path");
-const util = require("util");
 const stringSimilarity = require("string-similarity");
 const predefinedResponses = require("../data/predefinedResponses.json");
-const { transcribeAudio, chatWithLLM, saveConversation, synthesizeSpeech } = require("../services/openaiService");
+const {transcribeAudio} = require ("../services/transcribeAudio.js")
+const { saveConversation } = require("../services/saveConversation");
+const { synthesizeAndUploadTTS } = require ("../services/synthesizeAndUploadSpeech.js")
+const {chatWithLLM} = require ("../services/chatWithLLM");
+
 
 const handleAiConversation = async (req, res) => {
     const startTime = Date.now();
@@ -43,17 +46,16 @@ const handleAiConversation = async (req, res) => {
             userId: userId,
             inputText: userInput,
             responseText: gptResponse,
-            source: usedPredefined ? "predefined" : "llm"
+            source: usedPredefined ? "Predefined Responses" : "LLM"
         }).catch((err) => {
             console.error("❌ Error saving conversation (non-blocking):", err);
         });
         console.timeEnd("🕒 DB Save");
 
-        console.time("🕒 Text-to-Speech");
-        const audioFilename = `tts-${Date.now()}.mp3`;
-        const audioFilePath = path.join(__dirname, "..", "public", audioFilename);
-        await synthesizeSpeech(gptResponse, audioFilePath);
-        console.timeEnd("🕒 Text-to-Speech");
+        console.time("🕒 Text-to-Speech and Upload TTS");
+        
+        const audioUrl = await synthesizeAndUploadTTS(gptResponse);
+        console.timeEnd("🕒 Text-to-Speech and Upload TTS");
 
         const totalTime = Date.now() - startTime;
         console.log(`[${new Date().toISOString()}] ✅ Request completed in ${totalTime}ms`);
@@ -61,7 +63,7 @@ const handleAiConversation = async (req, res) => {
         res.json({
             transcription: userInput,
             response: gptResponse,
-            audioUrl: `/public/${audioFilename}`
+            audioUrl: audioUrl
         });
 
     } catch (err) {
