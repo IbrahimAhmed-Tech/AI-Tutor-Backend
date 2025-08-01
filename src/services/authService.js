@@ -1,11 +1,11 @@
 const supabase = require("../../supabaseClient");
-
-const signUpUser = async ({ name, email, password, context }) => {
+const DEFAULT_CONTEXT = "Speak easy English with this user";
+const signUpUser = async ({ name, email, password }) => {
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
   });
-
+  console.log("authERRO", authError)
   if (authError) {
     console.log("Auth signup error:", authError);
     return { error: authError?.message || "Unknown signup error" };
@@ -20,14 +20,14 @@ const signUpUser = async ({ name, email, password, context }) => {
 
   const { error: insertError } = await supabase
     .from("users")
-    .insert([{ id: userId, name, email, context }]);
-
+    .insert([{ id: userId, name, email,  context: DEFAULT_CONTEXT }]);
+  console.log("insertError", insertError)
   if (insertError) {
     console.log("Error inserting into users table:", insertError);
     return { error: insertError?.message || "Failed to insert user profile." };
   }
 
-  return { userId, name, email, context };
+  return { userId, name, email };
 };
 
 const signInUser = async ({ email, password }) => {

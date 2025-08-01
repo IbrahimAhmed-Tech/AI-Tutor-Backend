@@ -3,7 +3,7 @@
 //  point defined in vercel.json and this is where
 //  I'm making it serverless app which vercel supports.
 
-const app = require('../server'); 
-const serverless = require('serverless-http');
+//const { createServer } = require('@vercel/node')
+const app = require('../server') // import your Express app
 
-module.exports = serverless(app);
+module.exports = app

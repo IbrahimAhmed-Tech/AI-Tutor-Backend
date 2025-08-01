@@ -10,7 +10,7 @@ const authRouter = require('./src/routes/authRoutes')
 const aiConversationRoutes = require('./src/routes/aiConversationRoutes');
 
 app.get("/", (req, res) => {
-    res.send("API is working");
+    res.send("Backend working on Vercel.");
 });
 
 
@@ -18,6 +18,5 @@ app.use('/api/auth', authRouter);
 app.use('/api/ai-conversation', aiConversationRoutes);
 app.use('/public', express.static(path.join(__dirname, 'src', 'public')));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;

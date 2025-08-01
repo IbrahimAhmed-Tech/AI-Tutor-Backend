@@ -5,14 +5,7 @@ const { handleAiConversation } = require("../controllers/aiConversationControlle
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname) || ".webm";
-    cb(null, `${Date.now()}-${file.originalname}${ext}`);
-  },
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/", upload.single("audio"), handleAiConversation);
