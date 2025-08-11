@@ -12,7 +12,6 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
-   console.log("passowrd", password)
     const { error, token, user } = await authService.signInUser({ email, password });
 
     if (error) return res.status(400).json({ error });

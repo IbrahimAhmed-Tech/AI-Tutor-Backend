@@ -9,8 +9,7 @@ const {chatWithLLM} = require ("../services/chatWithLLM");
 
 
 const handleAiConversation = async (req, res) => {
-    console.log("🧪 req.file:", req.file);
-console.log("🧪 req.body:", req.body);
+   
     const startTime = Date.now();
     console.log(`\n[${new Date().toISOString()}] 🚀 New AI conversation request`);
 
